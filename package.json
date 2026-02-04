@@ -1,5 +1,5 @@
 {
-  "name": "foobar",
+  "name": "dhmarte_auto",
   "type": "module",
   "imports": {
     "#*": "./*.js"
@@ -8,14 +8,16 @@
     "start": "node --env-file=.env server.js",
     "dev": "node --watch --env-file=.env server.js",
     "test": "vitest",
-    "db:schema": "psql -d foobar -f db/schema.sql",
+    "db:schema": "psql -d dhmarte_auto -f db/schema.sql",
     "db:seed": "node --env-file=.env db/seed.js",
     "db:reset": "npm run db:schema && npm run db:seed"
   },
   "dependencies": {
+    "@faker-js/faker": "^10.2.0",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
+    "faker": "^6.6.6",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "pg": "^8.14.1"

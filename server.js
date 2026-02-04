@@ -1,5 +1,7 @@
 import app from "#app";
 import db from "#db/client";
+import cors from "cors";
+app.use(cors({ origin: /localhost/ }));
 
 const PORT = process.env.PORT ?? 3000;
 
