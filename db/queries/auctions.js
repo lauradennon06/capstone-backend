@@ -40,3 +40,30 @@ export async function getAuctionById(id) {
   } = await db.query(sql, [id]);
   return auction;
 }
+
+// update a auction in the database
+
+export async function updateAuction(id, { name, url, icon_url }) {
+  const sql = `
+    UPDATE auctions
+    SET name = $1,
+        url = $2,
+        icon_url = $3
+    WHERE id = $4
+    RETURNING *
+    `;
+  const {
+    rows: [auction],
+  } = await db.query(sql, [name, url, icon_url, id]);
+  return auction;
+}
+
+// delete a auction from the database
+
+export async function deleteAuction(id) {
+  const sql = `
+    DELETE FROM auctions
+    WHERE id = $1
+    `;
+  await db.query(sql, [id]);
+}

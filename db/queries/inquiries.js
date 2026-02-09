@@ -40,3 +40,13 @@ export async function getInquiryById(id) {
   } = await db.query(sql, [id]);
   return inquiry;
 }
+
+// Delete inquiry by ID
+
+export async function deleteInquiry(id) {
+  const sql = `
+    DELETE FROM inquiries
+    WHERE id = $1
+    `;
+  await db.query(sql, [id]);
+}
