@@ -20,8 +20,9 @@ export async function createInquiry(name, email, number, message, carId) {
 
 export async function getInquiries() {
   const sql = `
-    SELECT *
+    SELECT inquiries.*, cars.make, cars.model
     FROM inquiries
+    LEFT JOIN cars ON inquiries.car_id = cars.id
     `;
   const { rows: inquiries } = await db.query(sql);
   return inquiries;

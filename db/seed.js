@@ -37,8 +37,8 @@ async function seed() {
     cars.push(car);
   }
 
-  // create 3 inquiries for random cars
-  for (let j = 0; j < 3; j++) {
+  // create 10 inquiries for random cars
+  for (let j = 0; j < 10; j++) {
     const randomCar = cars[faker.number.int({ min: 0, max: cars.length - 1 })];
     await createInquiry(
       faker.person.fullName(),

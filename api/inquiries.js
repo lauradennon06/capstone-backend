@@ -1,17 +1,32 @@
 import express from "express";
 const router = express.Router();
 
-import { createInquiry, deleteInquiry } from "#db/queries/inquiries";
+import {
+  createInquiry,
+  deleteInquiry,
+  getInquiries,
+} from "#db/queries/inquiries";
 
 import requireUser from "#middleware/requireUser";
 import requireBody from "#middleware/requireBody";
 
+router.get("/", async (req, res) => {
+  const inquiries = await getInquiries();
+  res.send(inquiries);
+});
+
 router.post(
   "/",
-  requireBody(["name", "email", "number", "message", "carId"]),
+  requireBody(["name", "email", "number", "message"]),
   async (req, res) => {
     const { name, email, number, message, carId } = req.body;
-    const inquiry = await createInquiry(name, email, number, message, carId);
+    const inquiry = await createInquiry(
+      name,
+      email,
+      number,
+      message,
+      carId ? parseInt(carId) : null,
+    );
     res.status(201).send(inquiry);
   },
 );
