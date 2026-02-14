@@ -1,7 +1,8 @@
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS auctions;
-DROP TABLE IF EXISTS cars;
 DROP TABLE IF EXISTS inquiries;
+DROP TABLE IF EXISTS car_photos;
+DROP TABLE IF EXISTS cars;
+DROP TABLE IF EXISTS auctions;
+DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
   id serial PRIMARY KEY,
@@ -28,11 +29,17 @@ CREATE TABLE cars (
   photo_url text NOT NULL
 );
 
+CREATE TABLE car_photos (
+  id serial PRIMARY KEY,
+  car_id integer NOT NULL REFERENCES cars(id) ON DELETE CASCADE,
+  file_path text NOT NULL
+);
+
 CREATE TABLE inquiries (
- id serial PRIMARY KEY,
- name text NOT NULL,
- email text NOT NULL,
- number text NOT NULL,
+id serial PRIMARY KEY,
+name text NOT NULL,
+email text NOT NULL,
+number text NOT NULL,
 message text NOT NULL,
-  car_id integer NULL REFERENCES cars(id) ON DELETE SET NULL
+car_id integer NULL REFERENCES cars(id) ON DELETE SET NULL
 );

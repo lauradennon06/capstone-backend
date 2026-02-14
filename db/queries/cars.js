@@ -105,3 +105,27 @@ export async function deleteCar(id) {
     `;
   await db.query(sql, [id]);
 }
+
+// Save a car photo to the database
+export async function saveCarPhoto(carId, filePath) {
+  const sql = `
+    INSERT INTO car_photos (car_id, file_path)
+    VALUES ($1, $2)
+    RETURNING *
+  `;
+  const {
+    rows: [photo],
+  } = await db.query(sql, [carId, filePath]);
+  return photo;
+}
+
+// Retrieve all photos for a specific car
+export async function getCarPhotos(carId) {
+  const sql = `
+    SELECT *
+    FROM car_photos
+    WHERE car_id = $1
+  `;
+  const { rows: photos } = await db.query(sql, [carId]);
+  return photos;
+}

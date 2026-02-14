@@ -7,6 +7,7 @@ import {
   getCars,
   updateCar,
   deleteCar,
+  getCarPhotos,
 } from "#db/queries/cars";
 
 import requireUser from "#middleware/requireUser";
@@ -21,6 +22,15 @@ router.get("/:id", async (req, res) => {
   const car = await getCarById(req.params.id);
   if (!car) return res.status(404).send("Car not found");
   res.send(car);
+});
+
+router.get("/:id/photos", async (req, res, next) => {
+  try {
+    const photos = await getCarPhotos(req.params.id);
+    res.send(photos);
+  } catch (e) {
+    next(e);
+  }
 });
 
 router.post(

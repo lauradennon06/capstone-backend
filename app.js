@@ -1,4 +1,5 @@
 import express from "express";
+import multer from "multer";
 const app = express();
 export default app;
 
@@ -10,6 +11,17 @@ import morgan from "morgan";
 import auctionsRouter from "#api/auctions";
 import carsRouter from "#api/cars";
 import inquiriesRouter from "#api/inquiries";
+import { saveCarPhoto } from "#db/queries/cars";
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+const upload = multer({ storage });
 
 app.use(cors({ origin: process.env.CORS_ORIGIN ?? /localhost/ }));
 
@@ -20,7 +32,18 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(getUserFromToken);
 
-app.get("/", (req, res) => res.send("Hello, World!"));
+app.post("/upload", upload.array("files", 10), async (req, res) => {
+  try {
+    const carId = req.body.carId;
+    const savedPhotos = await Promise.all(
+      req.files.map((file) => saveCarPhoto(carId, file.path)),
+    );
+    res.send("Files uploaded and saved successfully");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error uploading files");
+  }
+});
 
 app.use("/users", usersRouter);
 

@@ -1,7 +1,7 @@
 import db from "#db/client";
 import { createUser } from "#db/queries/users";
 import { fa, faker } from "@faker-js/faker";
-import { createCar } from "#db/queries/cars";
+import { createCar, saveCarPhoto } from "#db/queries/cars";
 import { createInquiry } from "#db/queries/inquiries";
 import { createAuction } from "#db/queries/auctions";
 
@@ -29,12 +29,24 @@ async function seed() {
       faker.number.int({ min: 5000, max: 50000 }),
       faker.color.human(),
       faker.image.url({
-        width: 640,
-        height: 480,
+        width: 400,
+        height: 400,
         category: "transportation",
       }),
     );
     cars.push(car);
+
+    // create 3 photos for each car
+    for (let j = 0; j < 3; j++) {
+      await saveCarPhoto(
+        car.id,
+        faker.image.url({
+          width: 400,
+          height: 400,
+          category: "transportation",
+        }),
+      );
+    }
   }
 
   // create 10 inquiries for random cars
