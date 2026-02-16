@@ -44,10 +44,21 @@ router.post(
     "vin",
     "price",
     "color",
-    "photoUrl",
+    "photo_url",
   ]),
   async (req, res) => {
-    const car = await createCar(req.body);
+    const { make, model, year, mileage, vin, price, color, photo_url } =
+      req.body;
+    const car = await createCar(
+      make,
+      model,
+      year,
+      mileage,
+      vin,
+      price,
+      color,
+      photo_url,
+    );
     res.status(201).send(car);
   },
 );
@@ -63,10 +74,22 @@ router.put(
     "vin",
     "price",
     "color",
-    "photoUrl",
+    "photo_url",
   ]),
   async (req, res) => {
-    const car = await updateCar(req.params.id, req.body);
+    const { make, model, year, mileage, vin, price, color, photo_url } =
+      req.body;
+    const car = await updateCar(
+      req.params.id,
+      make,
+      model,
+      year,
+      mileage,
+      vin,
+      price,
+      color,
+      photo_url,
+    );
     res.send(car);
   },
 );

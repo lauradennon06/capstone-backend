@@ -9,7 +9,7 @@ export async function createCar(
   vin,
   price,
   color,
-  photoUrl,
+  photo_url,
 ) {
   const sql = `
     INSERT INTO cars
@@ -28,7 +28,7 @@ export async function createCar(
     vin,
     price,
     color,
-    photoUrl,
+    photo_url,
   ]);
   return car;
 }
@@ -66,7 +66,7 @@ export async function updateCar(
   vin,
   price,
   color,
-  photoUrl,
+  photo_url,
 ) {
   const sql = `
     UPDATE cars
@@ -91,7 +91,7 @@ export async function updateCar(
     vin,
     price,
     color,
-    photoUrl,
+    photo_url,
     id,
   ]);
   return car;

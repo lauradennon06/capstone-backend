@@ -30,17 +30,29 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Serve uploaded files statically
+app.use("/uploads", express.static("uploads"));
+
 app.use(getUserFromToken);
 
 app.post("/upload", upload.array("files", 10), async (req, res) => {
   try {
     const carId = req.body.carId;
+
+    if (!carId) {
+      return res.status(400).send("carId is required");
+    }
+
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).send("No files uploaded");
+    }
+
     const savedPhotos = await Promise.all(
       req.files.map((file) => saveCarPhoto(carId, file.path)),
     );
     res.send("Files uploaded and saved successfully");
   } catch (error) {
-    console.error(error);
+    console.error("Upload error:", error);
     res.status(500).send("Error uploading files");
   }
 });
